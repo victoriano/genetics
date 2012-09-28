@@ -9,6 +9,7 @@ import java.util.Random;
 @SuppressWarnings("unchecked")
 public class CandidateBits implements Comparable{
     private long[] values;
+    private long[] costs;
     private int[] genes;
     private Random random;
     private double mutationRate;
@@ -31,13 +32,14 @@ public class CandidateBits implements Comparable{
      * @param partitions
      * @param ec 
      */
-    CandidateBits(long[] values, double mutationRate, int partitions, EvalCounter ec){
+    CandidateBits(long[] values, long[] costs, double mutationRate, int partitions, EvalCounter ec){
         this.partitions = partitions;
         this.ec = ec;
         this.mutationRate = mutationRate;
         this.random = new Random();
         this.genes = new int[values.length-1];
         this.values = values;
+        this.costs = costs;
         for (int i=0; i < genes.length; ++i){
             genes[i] =random.nextInt(partitions);
         }
@@ -109,7 +111,7 @@ public class CandidateBits implements Comparable{
      */
     @Override
     public CandidateBits clone(){
-        CandidateBits ret = new CandidateBits(this.values, this.mutationRate, this.partitions, this.ec);
+        CandidateBits ret = new CandidateBits(this.values, this.costs, this.mutationRate, this.partitions, this.ec);
         for (int i=0; i < ret.genes.length; ++i)
             ret.genes[i] = this.genes[i];
         return ret;
@@ -135,9 +137,10 @@ public class CandidateBits implements Comparable{
         ++this.ec.evals;
         
         double[] dif = new double[partitions];
-        dif[0] = values[0];
+        dif[0] = values[0] - costs[0];
         for (int i=0; i < genes.length; ++i){
             dif[genes[i]] += values[i+1];
+            dif[genes[i]] -= costs[i+1];
         }
         
         double min = Double.MAX_VALUE;

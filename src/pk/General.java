@@ -36,21 +36,23 @@ public class General {
     public static void bestResults(){
         
     	int partitions = 2;
-        int n = 4;
-        int iterations = 3;
+        int n = 5;
+        int iterations = 100;
         int maxInt = 10;
         Random random = new Random();
         long[] values = new long[n];
-        
+        long[] costs = new long[n];
         System.out.println(partitions+"-"+maxInt+"-"+n+"----------------------------------");
         System.out.println();
         
         for (int i=0; i < iterations; ++i){
-            for(int j=0; j < values.length; ++j)
+            for(int j=0; j < values.length; ++j){
                 values[j] = random.nextInt(maxInt);
+            	costs[j] = random.nextInt(maxInt);
+            }
             //Gen gen = new Gen(values, partitions, 150 * partitions * values.length, 3, 5000 * partitions * values.length);
             //Gen(long[] values, int partitions, int populationSize, int tournamentSize, int evaluations){
-            Gen gen = new Gen(values, partitions, 5, 3, 1000);
+            Gen gen = new Gen(values, costs, partitions, 5, 3, 5);
             CandidateBits cb = gen.solve();
            
             /* Print values */
@@ -85,7 +87,7 @@ public class General {
         return a;
     }
     
-    public static double[] solveClass10(long[] values, int partitions){
+    /* public static double[] solveClass10(long[] values, int partitions){
         CandidateBits solution;
         CandidateBits best = null;
         long executionTime=0;
@@ -139,6 +141,7 @@ public class General {
         }while(best.eval() > 0 && --tries > 0);
         return new double[] {best.eval(), evals, executionTime};
     }
+     */
     
     
     /**
@@ -148,6 +151,7 @@ public class General {
      * @param maxInt
      * @param iterations
      */
+    /*
     public static void test(int problemSize, int partitions, int maxInt, int iterations) {
         System.out.println(partitions+"-"+maxInt+"-"+problemSize+"----------------------------------");
         Random random = new Random();
@@ -172,7 +176,7 @@ public class General {
 
         }
     }
-
+		*/
     /**
      * This method returns the contents of a file in an array of integers
      * @param fileName

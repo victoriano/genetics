@@ -3,6 +3,7 @@ package pk;
 
 public abstract class ProblemSolver {
     long[] values;
+    long[] costs;
     long partitions;
     EvalCounter evalCounter;
     long optimum;
@@ -24,8 +25,9 @@ public abstract class ProblemSolver {
      * @param partitions 
      */
     
-    ProblemSolver(long[] values, long partitions){
+    ProblemSolver(long[] values, long[]costs, long partitions){
         this.values = values;
+        this.costs = costs;
         this.partitions = partitions;
         this.evalCounter = new EvalCounter();
         optimum = 0;
