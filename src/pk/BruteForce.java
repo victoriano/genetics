@@ -16,7 +16,7 @@ public class BruteForce extends ProblemSolver{
      * @param partitions 
      */
     BruteForce(long[] values, int partitions){
-        super(values, partitions);
+        super(values, values, partitions);
     }
     
     /**
@@ -80,7 +80,7 @@ public class BruteForce extends ProblemSolver{
         this.start = System.currentTimeMillis();
         bestDif = Double.MAX_VALUE;
         bruteForce(new int[values.length-1], 0);
-        CandidateBits ret = new CandidateBits(values, 0, (int)this.partitions, this.evalCounter);
+        CandidateBits ret = new CandidateBits(values, costs, 0, (int)this.partitions, this.evalCounter);
         ret.setGenes(best);
         this.end = System.currentTimeMillis();
         return ret;

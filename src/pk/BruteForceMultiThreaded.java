@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 public class BruteForceMultiThreaded extends ProblemSolver{
 
     public BruteForceMultiThreaded(long[] values, int partitions) {
-        super(values, partitions);
+        super(values, values, partitions);
     }
     
 

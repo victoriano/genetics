@@ -32,7 +32,7 @@ public class BruteForceThread extends Thread{
     
     public void run(){
         bruteForce(genes, start);
-        CandidateBits ret = new CandidateBits(values, 0, (int)this.partitions, new EvalCounter());
+        CandidateBits ret = new CandidateBits(values, values, 0, (int)this.partitions, new EvalCounter());
         ret.setGenes(best);
         solution = ret;
     }
