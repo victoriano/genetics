@@ -17,13 +17,13 @@ public class Gen extends ProblemSolver{
    * Creates a genetic solver with the given values, number of partitions, population size, tournament size and maximum number of evaluations
    * @param values
    * @param costs
-   * @param partitions
+   * @param knapsacks
    * @param populationSize
    * @param tournamentSize
    * @param evaluations 
    */
-    Gen(long[] values, long[] costs, int partitions, int populationSize, int tournamentSize, int evaluations){
-        super(values, costs, partitions);
+    Gen(long[] values, long[] costs, int knapsacks, int populationSize, int tournamentSize, int evaluations){
+        super(values, costs, knapsacks);
         random = new Random();
         this.populationSize = populationSize;
         this.tournamentSize = tournamentSize;
@@ -136,7 +136,7 @@ public class Gen extends ProblemSolver{
       
       //Create initial population 
       for (int i=0; i < populationSize; ++i)
-          population.add(new CandidateBits(values, costs, .1, (int)partitions, evalCounter));
+          population.add(new CandidateBits(values, costs, .1, (int)knapsacks, evalCounter));
       
       // Criteria to Stop either reach the total n¼ of evals passed or reach and optimum
       //while(evalCounter.evals < evaluations && (Collections.min(population).eval() > 0.0000000000001)){

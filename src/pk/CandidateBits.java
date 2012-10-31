@@ -14,7 +14,7 @@ public class CandidateBits implements Comparable{
     private Random random;
     private double mutationRate;
     private double fitness;
-    private int partitions;
+    private int knapsacks;
     double sum;
     private EvalCounter ec;
      
@@ -27,14 +27,14 @@ public class CandidateBits implements Comparable{
     }
     
     /**
-     * This constructor creates a candidate to solve the problem with the given values, mutation rate number of partitions and evaluation counter
+     * This constructor creates a candidate to solve the problem with the given values, mutation rate number of knapsacks and evaluation counter
      * @param values
      * @param mutationRate
-     * @param partitions
+     * @param knapsacks
      * @param ec 
      */
-    CandidateBits(long[] values, long[] costs, double mutationRate, int partitions, EvalCounter ec){
-        this.partitions = partitions;
+    CandidateBits(long[] values, long[] costs, double mutationRate, int knapsacks, EvalCounter ec){
+        this.knapsacks = knapsacks;
         this.ec = ec;
         this.mutationRate = mutationRate;
         this.random = new Random();
@@ -42,7 +42,7 @@ public class CandidateBits implements Comparable{
         this.values = values;
         this.costs = costs;
         for (int i=0; i < genes.length; ++i){
-            genes[i] =random.nextInt(partitions);
+            genes[i] =random.nextInt(knapsacks);
         }
         this.fitness = -1;
         this.sum = 0;
@@ -113,7 +113,7 @@ public class CandidateBits implements Comparable{
      */
     @Override
     public CandidateBits clone(){
-        CandidateBits ret = new CandidateBits(this.values, this.costs, this.mutationRate, this.partitions, this.ec);
+        CandidateBits ret = new CandidateBits(this.values, this.costs, this.mutationRate, this.knapsacks, this.ec);
         for (int i=0; i < ret.genes.length; ++i)
             ret.genes[i] = this.genes[i];
         return ret;
@@ -126,7 +126,7 @@ public class CandidateBits implements Comparable{
     public final void mutate(double ratio){
         for (int i=0; i < genes.length; ++i)
             if (Math.random() < ratio)
-                this.genes[i] = (this.genes[i]+random.nextInt(this.partitions))%partitions;
+                this.genes[i] = (this.genes[i]+random.nextInt(this.knapsacks))%knapsacks;
     }
     
     /**
@@ -144,11 +144,11 @@ public class CandidateBits implements Comparable{
         
         /* We compute the accumulated diff of
          * values - costs of the
-         * different knapsack (partitions)
+         * different knapsacks 
          * dif[0] = not present in any bag 
          */
         
-        double[] dif = new double[partitions];
+        double[] dif = new double[knapsacks];
         //dif[0] = values[0] - costs[0];
         for (int i=0; i < genes.length; ++i){
             dif[genes[i]] += values[i+1];
@@ -184,7 +184,7 @@ public class CandidateBits implements Comparable{
         
 
         
-        double[] dif = new double[partitions];
+        double[] dif = new double[knapsacks];
         dif[0] = values[0] - costs[0];
         for (int i=0; i < genes.length; ++i){
             dif[genes[i]] += values[i+1];

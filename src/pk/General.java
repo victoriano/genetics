@@ -14,89 +14,28 @@ public class General {
      */
     public static void main(String... args) throws FileNotFoundException, IOException {
          
-    	//randomTest();
-    	Test();
+    	 Test();
+    	//randomTest();  	
     	
     }
-    
-    
-     /**
-     * A method for testing the algorithm 
-     * passing random coefficients an costs
-     * @param problemSize
-     * @param partitions
-     * @param maxInt
-     * @param iterations
-     */
-    public static void randomTest(){
         
-    	int partitions = 1;
-        int n = 8;
-        int batches = 1;
-        int maxInt = 10;
-        
-        Random random = new Random();
-        long[] values = new long[n];
-        long[] costs = new long[n];
-        
-        System.out.println( "Partitions: " + partitions+  " | Total N¼ Items: " + n + " | MaxInt: " + maxInt +  " ------->>");
-        
-        /* Generate Values and Costs randomly */
-        for (int i=0; i < batches; ++i){
-            for(int j=0; j < values.length; ++j){
-                values[j] = random.nextInt(maxInt);
-            	costs[j] = random.nextInt(maxInt);
-            }
- 
-            /* Print values */
-            System.out.print("Values: ");
-            for (int u=0; u < values.length; ++u){
-                System.out.print(values[u] + " " );
-            }
-            
-            /* Print costs */
-            System.out.print("| Costs: ");
-            for (int u=0; u < costs.length; ++u){
-                System.out.print(costs[u] + " " );
-            }
-            System.out.println();
-            System.out.println();
-            
-            /* Create Genetic object*/
-            //Gen(long[] values, int partitions, int populationSize, int tournamentSize, int evaluations){
-            Gen gen = new Gen(values, costs, partitions, 8, 3, 200 );
-            
-            /*Solve it */
-            CandidateBits cb = gen.solve();
-           
-
-            System.out.println();
-            
-            /* Print Results */
-            System.out.print( "Execution Time-> " + gen.executionTime() + " Fitness-> " + cb.eval() + " Sum-> " + cb.sum + " + | Evals-> " + gen.evaluations() + " ");
-            System.out.println("** Solution: " + cb.toString());
-            System.out.println();
-            gen.printPopulation();
-        }
-    }
-    
     /**
      * A method for testing the algorithm 
-     * passing random coefficients an costs
+     * passing data sets found online
      * @param problemSize
-     * @param partitions
+     * @param knapsacks
      * @param maxInt
      * @param iterations
      */
     public static void Test(){
         
-    	int partitions = 1;
+    	int knapsacks = 1;
         int n = 10;
        
         long[] values = new long[n];
         long[] costs = new long[n];
         
-        System.out.println( "Partitions: " + partitions+  " | Total N¼ Items: " + n +  " ------->>");
+        System.out.println( "Knapsacks: " + knapsacks+  " | Total N¼ Items: " + n +  " ------->>");
                     
             values[0] = 92;
             values[1] = 57;
@@ -137,7 +76,7 @@ public class General {
             
             /* Create Genetic object*/
             //Gen(long[] values, int partitions, int populationSize, int tournamentSize, int evaluations){
-            Gen gen = new Gen(values, costs, partitions, 20, 5, 134);
+            Gen gen = new Gen(values, costs, knapsacks, 20, 5, 234);
            
             // Optimal Solution 111010000 of p01_s.txt
             //http://people.sc.fsu.edu/~jburkardt/datasets/knapsack_01/knapsack_01.html
@@ -155,6 +94,66 @@ public class General {
             gen.printPopulation();
         
     }
+    
+
+    /**
+	* A Test to run different 
+	* batches of problems with 
+	* cost and values generated with
+	* random numbers 
+    */
+    
+   public static void randomTest(){
+       
+   	   int knapsacks = 1;
+       int n = 8;
+       int batches = 1;
+       int maxInt = 10;
+       
+       Random random = new Random();
+       long[] values = new long[n];
+       long[] costs = new long[n];
+       
+       System.out.println( "Partitions: " + knapsacks+  " | Total N¼ Items: " + n + " | MaxInt: " + maxInt +  " ------->>");
+       
+       /* Generate Values and Costs randomly */
+       for (int i=0; i < batches; ++i){
+           for(int j=0; j < values.length; ++j){
+               values[j] = random.nextInt(maxInt);
+           	costs[j] = random.nextInt(maxInt);
+           }
+
+           /* Print values */
+           System.out.print("Values: ");
+           for (int u=0; u < values.length; ++u){
+               System.out.print(values[u] + " " );
+           }
+           
+           /* Print costs */
+           System.out.print("| Costs: ");
+           for (int u=0; u < costs.length; ++u){
+               System.out.print(costs[u] + " " );
+           }
+           System.out.println();
+           System.out.println();
+           
+           /* Create Genetic object*/
+           //Gen(long[] values, int partitions, int populationSize, int tournamentSize, int evaluations){
+           Gen gen = new Gen(values, costs, knapsacks, 8, 3, 200 );
+           
+           /*Solve it */
+           CandidateBits cb = gen.solve();
+          
+
+           System.out.println();
+           
+           /* Print Results */
+           System.out.print( "Execution Time-> " + gen.executionTime() + " Fitness-> " + cb.eval() + " Sum-> " + cb.sum + " + | Evals-> " + gen.evaluations() + " ");
+           System.out.println("** Solution: " + cb.toString());
+           System.out.println();
+           gen.printPopulation();
+       }
+   }
     
 	
     /**

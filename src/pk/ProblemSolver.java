@@ -4,9 +4,8 @@ package pk;
 public abstract class ProblemSolver {
     long[] values;
     long[] costs;
-    long partitions;
+    long knapsacks;
     EvalCounter evalCounter;
-    long optimum;
     long start;
     long end;
     
@@ -20,30 +19,27 @@ public abstract class ProblemSolver {
     }
     
     /**
-     * Builds a problem solver given an array of values and a number of partitions
+     * Builds a problem solver given an array of values and a number of knapsacks
      * @param values
-     * @param partitions 
+     * @param knapsacks 
      */
     
-    ProblemSolver(long[] values, long[]costs, long partitions){
+    ProblemSolver(long[] values, long[]costs, long knapsacks){
         this.values = values;
         this.costs = costs;
-        this.partitions = partitions+1;
+        this.knapsacks = knapsacks+1;
         this.evalCounter = new EvalCounter();
-        optimum = 0;
-        for (int i=0; i < values.length; ++i)
-            optimum = (optimum + (values[i]%partitions))%partitions;
         double sum = 0;
         for (int i=0; i < values.length; ++i)
             sum += values[i];
     }
     
     /**
-     * Sets the number of partitions of the current problem solver to partitions.
-     * @param partitions
+     * Sets the number of knapsacks of the current problem solver to partitions.
+     * @param knapsacks
      */
-    public void setPartitions(int partitions){
-        this.partitions = partitions;
+    public void setPartitions(int knapsacks){
+        this.knapsacks = knapsacks;
     }
         
     /**
