@@ -38,7 +38,7 @@ public class CandidateBits implements Comparable{
         this.ec = ec;
         this.mutationRate = mutationRate;
         this.random = new Random();
-        this.genes = new int[values.length-1];
+        this.genes = new int[values.length];
         this.values = values;
         this.costs = costs;
         for (int i=0; i < genes.length; ++i){
@@ -46,6 +46,13 @@ public class CandidateBits implements Comparable{
         }
         this.fitness = -1;
         this.sum = 0;
+        
+        System.out.println("New individual! ");
+        for (int k=0; k < genes.length; ++k){
+            System.out.println("Added: " + genes[k]);
+        } 
+        
+        
     }
     
     /**
@@ -151,8 +158,9 @@ public class CandidateBits implements Comparable{
         double[] dif = new double[knapsacks];
         //dif[0] = values[0] - costs[0];
         for (int i=0; i < genes.length; ++i){
-            dif[genes[i]] += values[i+1];
-            dif[genes[i]] -= costs[i+1];
+        	System.out.println("Gen " + this.toString() + " cat: " + genes[i] + " value: " + values[i] + " - cost: " + costs[i]  );
+            dif[genes[i]] += values[i];
+            dif[genes[i]] -= costs[i];
         }
         
         /* We sum the items in each bag 
@@ -224,7 +232,7 @@ public class CandidateBits implements Comparable{
      */
     @Override
     public String toString(){
-        String ret = "0";
+        String ret = "";
         for (int i=0; i < this.genes.length; ++i)
             ret += Integer.toString(this.genes[i]);
         return ret;

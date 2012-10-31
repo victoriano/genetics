@@ -76,7 +76,7 @@ public class General {
             
             /* Create Genetic object*/
             //Gen(long[] values, int partitions, int populationSize, int tournamentSize, int evaluations){
-            Gen gen = new Gen(values, costs, knapsacks, 20, 5, 234);
+            Gen gen = new Gen(values, costs, knapsacks, 3, 4, 2);
            
             // Optimal Solution 111010000 of p01_s.txt
             //http://people.sc.fsu.edu/~jburkardt/datasets/knapsack_01/knapsack_01.html
@@ -139,7 +139,7 @@ public class General {
            
            /* Create Genetic object*/
            //Gen(long[] values, int partitions, int populationSize, int tournamentSize, int evaluations){
-           Gen gen = new Gen(values, costs, knapsacks, 8, 3, 200 );
+           Gen gen = new Gen(values, costs, knapsacks, 2, 3, 60 );
            
            /*Solve it */
            CandidateBits cb = gen.solve();

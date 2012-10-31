@@ -138,12 +138,17 @@ public class Gen extends ProblemSolver{
       for (int i=0; i < populationSize; ++i)
           population.add(new CandidateBits(values, costs, .1, (int)knapsacks, evalCounter));
       
+      System.out.println("Initial Population Created");
+      int kk = 0;
       // Criteria to Stop either reach the total n¼ of evals passed or reach and optimum
       //while(evalCounter.evals < evaluations && (Collections.min(population).eval() > 0.0000000000001)){
       while(evalCounter.evals < evaluations ){
+    	    printPopulation();
+    	  	System.out.println("Entrando en el loop " + kk );
             nextGen(population, tournamentSize);
             Collections.sort(population);
-    	  	printPopulation();
+    	  	
+    	  	++kk;
       }
       
       this.end = System.currentTimeMillis();
@@ -153,8 +158,9 @@ public class Gen extends ProblemSolver{
     
     @SuppressWarnings("unchecked")
 	public void printPopulation(){
-    	System.out.println("Generation n:" + evalCounter.evals + " best fitness: " + Collections.min(population).eval());
-        for (int i=0; i < population.size(); ++i){
+    	System.out.println("Generation n:" + evalCounter.evals + "sum: " + Collections.min(population).sum + " best fitness: " + Collections.min(population).eval());
+    	System.out.println("Solution: " + Collections.min(population).toString());
+    	for (int i=0; i < population.size(); ++i){
             System.out.println(population.get(i).toString());
         }
         System.out.println();
