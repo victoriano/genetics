@@ -165,8 +165,12 @@ public class CandidateBits implements Comparable{
         }
             
         this.fitness = sum;
-
-        this.fitness = 1/this.fitness;
+        
+        if(sum > 165.0){
+        	this.fitness = 0;
+        }else{
+        	this.fitness = 1/this.fitness;
+        }
 
         //this.fitness = Math.abs(this.fitness);
         return this.fitness;

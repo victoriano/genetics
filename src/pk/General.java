@@ -92,35 +92,35 @@ public class General {
         
     	int partitions = 1;
         int n = 10;
-        int maxInt = 10;
-        
+       
         long[] values = new long[n];
         long[] costs = new long[n];
         
-        System.out.println( "Partitions: " + partitions+  " | Total N¼ Items: " + n + " | MaxInt: " + maxInt +  " ------->>");
+        System.out.println( "Partitions: " + partitions+  " | Total N¼ Items: " + n +  " ------->>");
                     
-            values[0] = 71;
-            values[1] = 21;
-            values[2] = 51;
-            values[3] = 54;
-            values[4] = 15;
-            values[5] = 34;
-            values[6] = 86;
-            values[7] = 103;
-            values[8] = 3;
-            values[9] = 2;
+            values[0] = 92;
+            values[1] = 57;
+            values[2] = 49;
+            values[3] = 68;
+            values[4] = 60;
+            values[5] = 43;
+            values[6] = 67;
+            values[7] = 84;
+            values[8] = 87;
+            values[9] = 72;
             
-            costs[0] = 25;
-            costs[1] = 76;
-            costs[2] = 987;
-            costs[3] = 4;
-            costs[4] = 55;
-            costs[5] = 453;
-            costs[6] = 563;
-            costs[7] = 19;
-            costs[8] = 1678;
-            costs[9] = 34;
- 
+            
+            costs[0] = 23;
+            costs[1] = 31;
+            costs[2] = 29;
+            costs[3] = 44;
+            costs[4] = 53;
+            costs[5] = 38;
+            costs[6] = 63;
+            costs[7] = 85;
+            costs[8] = 89;
+            costs[9] = 82;
+    
             /* Print values */
             System.out.print("Values: ");
             for (int u=0; u < values.length; ++u){
@@ -137,8 +137,10 @@ public class General {
             
             /* Create Genetic object*/
             //Gen(long[] values, int partitions, int populationSize, int tournamentSize, int evaluations){
-            Gen gen = new Gen(values, costs, partitions, 8, 3, 5);
-            
+            Gen gen = new Gen(values, costs, partitions, 20, 3, 5000);
+           
+            // Optimal Solution 111010000
+            //http://people.sc.fsu.edu/~jburkardt/datasets/knapsack_01/knapsack_01.html
             
             /*Solve it */
             CandidateBits cb = gen.solve();
