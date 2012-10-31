@@ -14,8 +14,8 @@ public class General {
      */
     public static void main(String... args) throws FileNotFoundException, IOException {
          
-    	randomTest();
-    	//Test();
+    	//randomTest();
+    	Test();
     	
     }
     
@@ -137,9 +137,9 @@ public class General {
             
             /* Create Genetic object*/
             //Gen(long[] values, int partitions, int populationSize, int tournamentSize, int evaluations){
-            Gen gen = new Gen(values, costs, partitions, 20, 3, 5000);
+            Gen gen = new Gen(values, costs, partitions, 20, 5, 134);
            
-            // Optimal Solution 111010000
+            // Optimal Solution 111010000 of p01_s.txt
             //http://people.sc.fsu.edu/~jburkardt/datasets/knapsack_01/knapsack_01.html
             
             /*Solve it */

@@ -149,30 +149,30 @@ public class CandidateBits implements Comparable{
          */
         
         double[] dif = new double[partitions];
-        dif[0] = values[0] - costs[0];
+        //dif[0] = values[0] - costs[0];
         for (int i=0; i < genes.length; ++i){
             dif[genes[i]] += values[i+1];
             dif[genes[i]] -= costs[i+1];
         }
         
-        //double min = Double.MAX_VALUE;
+        /* We sum the items in each bag 
+         * dif[0] are the elements class not used
+         * */
         sum = 0;
         
         this.fitness = 0;
         for (int j=1; j < dif.length; ++j){
-        	 //if(dif[j]> constraint) do something bad to the fitness
-        	 sum += dif[j];
+        	 // 165 temporal constraint
+        	 if(dif[j]> 165.0){
+        		 return this.fitness = -1;
+        	 }else{
+        	 sum += dif[j];}
         }
             
         this.fitness = sum;
-        
-        if(sum > 165.0){
-        	this.fitness = 0;
-        }else{
-        	this.fitness = 1/this.fitness;
-        }
+        this.fitness = 1/this.fitness;
 
-        //this.fitness = Math.abs(this.fitness);
+        this.fitness = Math.abs(this.fitness);
         return this.fitness;
     }
     
