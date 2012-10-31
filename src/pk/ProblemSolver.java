@@ -28,7 +28,7 @@ public abstract class ProblemSolver {
     ProblemSolver(long[] values, long[]costs, long partitions){
         this.values = values;
         this.costs = costs;
-        this.partitions = partitions;
+        this.partitions = partitions+1;
         this.evalCounter = new EvalCounter();
         optimum = 0;
         for (int i=0; i < values.length; ++i)

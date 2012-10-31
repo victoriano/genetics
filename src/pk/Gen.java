@@ -32,6 +32,7 @@ public class Gen extends ProblemSolver{
 
     /**
      * This method is responsible of creating a new population from the given one.
+     * the 
      * @param population
      * @param tournamentSize 
      */
@@ -39,20 +40,14 @@ public class Gen extends ProblemSolver{
         if (evaluationsLeft < 2000)
             nextGenByOne(population, tournamentSize);
         else if (evaluationsLeft < 5000)
-            nextGenElitist(population, tournamentSize, 3); /*284 - 3000*/
+            nextGenElitist(population, tournamentSize, 3); 
         else
-            nextGenRoulette(population, 3);
+            nextGenRoulette(population);
     }
     
-    private void nextGenRoulette(List<CandidateBits> population, int elite){
+    private void nextGenRoulette(List<CandidateBits> population){
         List<CandidateBits> newGen = new ArrayList<CandidateBits>();
-        /*
-        for (int i=0; i < elite; ++i){
-            CandidateBits a = Collections.min(population);
-            newGen.add(a);
-            population.remove(a);
-        }
-        */
+
         population.addAll(newGen);
         double[] roulette = rouletteArray();
         while(newGen.size()  < populationSize){
@@ -71,7 +66,7 @@ public class Gen extends ProblemSolver{
             sum += fitness[i];
         }
         
-        /*Vamos a normalizar y a usar 1-fitness*/
+        /*Normalize using 1-fitness*/
         for (int i=0; i < fitness.length; ++i){
             fitness[i] = 1.0 - (fitness[i]/sum);
         }
@@ -135,23 +130,33 @@ public class Gen extends ProblemSolver{
     @SuppressWarnings("unchecked")
 	@Override
     public CandidateBits solve() {
+
       this.start = System.currentTimeMillis();
       population = new ArrayList<CandidateBits>();
+      
+      //Create initial population 
       for (int i=0; i < populationSize; ++i)
           population.add(new CandidateBits(values, costs, .1, (int)partitions, evalCounter));
-      //Collections.sort(population);
-      while(evalCounter.evals < evaluations && (Collections.min(population).eval() > (double)optimum)){
+      
+      // Criteria to Stop either reach the total n¼ of evals passed or reach and optimum
+      //while(evalCounter.evals < evaluations && (Collections.min(population).eval() > 0.0000000000001)){
+      while(evalCounter.evals < evaluations ){
             nextGen(population, tournamentSize);
-            //Collections.sort(population);
+            Collections.sort(population);
+    	  	printPopulation();
       }
+      
       this.end = System.currentTimeMillis();
       return Collections.min(population);
     }
     
     
-    public void printPopulation(){
+    @SuppressWarnings("unchecked")
+	public void printPopulation(){
+    	System.out.println("Generation n:" + evalCounter.evals + " best fitness: " + Collections.min(population).eval());
         for (int i=0; i < population.size(); ++i){
             System.out.println(population.get(i).toString());
         }
+        System.out.println();
     }
 }

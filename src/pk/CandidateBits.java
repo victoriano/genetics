@@ -15,6 +15,7 @@ public class CandidateBits implements Comparable{
     private double mutationRate;
     private double fitness;
     private int partitions;
+    double sum;
     private EvalCounter ec;
      
     /**
@@ -44,6 +45,7 @@ public class CandidateBits implements Comparable{
             genes[i] =random.nextInt(partitions);
         }
         this.fitness = -1;
+        this.sum = 0;
     }
     
     /**
@@ -131,10 +133,52 @@ public class CandidateBits implements Comparable{
      * This method returns a double representing the fitness of the given individual
      * @return evaluation
      */
+    
     public double eval(){
+    	
+        if (this.fitness != -1){
+        	return this.fitness;     	
+        }
+            
+        ++this.ec.evals;
+        
+        /* We compute the accumulated diff of
+         * values - costs of the
+         * different knapsack (partitions)
+         * dif[0] = not present in any bag 
+         */
+        
+        double[] dif = new double[partitions];
+        dif[0] = values[0] - costs[0];
+        for (int i=0; i < genes.length; ++i){
+            dif[genes[i]] += values[i+1];
+            dif[genes[i]] -= costs[i+1];
+        }
+        
+        //double min = Double.MAX_VALUE;
+        sum = 0;
+        
+        this.fitness = 0;
+        for (int j=1; j < dif.length; ++j){
+        	 //if(dif[j]> constraint) do something bad to the fitness
+        	 sum += dif[j];
+        }
+            
+        this.fitness = sum;
+
+        this.fitness = 1/this.fitness;
+
+        //this.fitness = Math.abs(this.fitness);
+        return this.fitness;
+    }
+    
+    /* 
+    public double evalO(){
         if (this.fitness != -1)
             return this.fitness;
         ++this.ec.evals;
+        
+
         
         double[] dif = new double[partitions];
         dif[0] = values[0] - costs[0];
@@ -159,7 +203,7 @@ public class CandidateBits implements Comparable{
         
         this.fitness = Math.abs(this.fitness);
         return this.fitness;
-    }
+    } */
     
     /**
      * This method is implemented in order to sort our candidates.
