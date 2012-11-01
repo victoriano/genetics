@@ -6,6 +6,7 @@ public abstract class ProblemSolver {
     long[] costs;
     long[] constraints;
     long knapsacks;
+    double mutationRate;
     EvalCounter evalCounter;
     long start;
     long end;
@@ -25,11 +26,12 @@ public abstract class ProblemSolver {
      * @param knapsacks 
      */
     
-    ProblemSolver(long[]values, long[]costs, long[]constraints, long knapsacks){
+    ProblemSolver(long[]values, long[]costs, long[]constraints, long knapsacks, double mutationRate){
         this.values = values;
         this.costs = costs;
         this.constraints = constraints;
         this.knapsacks = knapsacks+1;
+        this.mutationRate =  mutationRate ;
         this.evalCounter = new EvalCounter();
         double sum = 0;
         for (int i=0; i < values.length; ++i)

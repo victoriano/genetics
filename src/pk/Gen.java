@@ -22,8 +22,8 @@ public class Gen extends ProblemSolver{
    * @param tournamentSize
    * @param evaluations 
    */
-    Gen(long[] values, long[] costs, long[] constraints, int knapsacks, int populationSize, int tournamentSize, int evaluations){
-        super(values, costs, constraints, knapsacks);
+    Gen(long[] values, long[] costs, long[] constraints, int knapsacks,  double mutationRate, int populationSize, int tournamentSize, int evaluations){
+        super(values, costs, constraints, knapsacks, mutationRate);
         random = new Random();
         this.populationSize = populationSize;
         this.tournamentSize = tournamentSize;
@@ -136,7 +136,7 @@ public class Gen extends ProblemSolver{
       
       //Create initial population 
       for (int i=0; i < populationSize; ++i)
-          population.add(new CandidateBits(values, costs, constraints, .1, (int)knapsacks, evalCounter));
+          population.add(new CandidateBits(values, costs, constraints,  mutationRate, (int)knapsacks, evalCounter));
       
       int nGenerations = 0;
       // Criteria to Stop either reach the total n¼ of evals passed or reach and optimum
