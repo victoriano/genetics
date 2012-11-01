@@ -3,13 +3,12 @@ package pk;
 import java.util.Arrays;
 import java.util.Random;
 
-/**
- *
- */
+
 @SuppressWarnings("unchecked")
 public class CandidateBits implements Comparable{
-    private long[] values;
+	private long[] values;
     private long[] costs;
+    private long[] constraints;
     private int[] genes;
     private Random random;
     private double mutationRate;
@@ -33,12 +32,13 @@ public class CandidateBits implements Comparable{
      * @param knapsacks
      * @param ec 
      */
-    CandidateBits(long[] values, long[] costs, double mutationRate, int knapsacks, EvalCounter ec){
+    CandidateBits(long[] values, long[] costs, long[] constraints, double mutationRate, int knapsacks, EvalCounter ec){
         this.knapsacks = knapsacks;
         this.ec = ec;
         this.mutationRate = mutationRate;
         this.random = new Random();
         this.genes = new int[values.length];
+        this.constraints = constraints;
         this.values = values;
         this.costs = costs;
         for (int i=0; i < genes.length; ++i){
@@ -47,12 +47,11 @@ public class CandidateBits implements Comparable{
         this.fitness = -1;
         this.sum = 0;
         
-        System.out.println("New individual! ");
+        /* System.out.println("New individual! ");
         for (int k=0; k < genes.length; ++k){
             System.out.println("Added: " + genes[k]);
-        } 
-        
-        
+        } */ 
+                
     }
     
     /**
@@ -120,7 +119,7 @@ public class CandidateBits implements Comparable{
      */
     @Override
     public CandidateBits clone(){
-        CandidateBits ret = new CandidateBits(this.values, this.costs, this.mutationRate, this.knapsacks, this.ec);
+        CandidateBits ret = new CandidateBits(this.values, this.costs, this.constraints, this.mutationRate, this.knapsacks, this.ec);
         for (int i=0; i < ret.genes.length; ++i)
             ret.genes[i] = this.genes[i];
         return ret;
@@ -156,23 +155,23 @@ public class CandidateBits implements Comparable{
          */
         
         double[] dif = new double[knapsacks];
-        //dif[0] = values[0] - costs[0];
         for (int i=0; i < genes.length; ++i){
-        	System.out.println("Gen " + this.toString() + " cat: " + genes[i] + " value: " + values[i] + " - cost: " + costs[i]  );
+        //System.out.println("Gen " + this.toString() + " cat: " + genes[i] + " value: " + values[i] + " - cost: " + costs[i]  );
             dif[genes[i]] += values[i];
             dif[genes[i]] -= costs[i];
         }
         
         /* We sum the items in each bag 
-         * dif[0] are the elements class not used
+         * dif[0] are the class for items not loaded to any bag
          * */
         sum = 0;
         
         this.fitness = 0;
         for (int j=1; j < dif.length; ++j){
-        	 // 165 temporal constraint
-        	 if(dif[j]> 165.0){
-        		 return this.fitness = -1;
+        	 // simple strategy for broken constraints
+        	 if(dif[j]> constraints[j-1]){
+        		 //System.out.println();
+        		 return this.fitness = 10000;
         	 }else{
         	 sum += dif[j];}
         }
@@ -184,44 +183,13 @@ public class CandidateBits implements Comparable{
         return this.fitness;
     }
     
-    /* 
-    public double evalO(){
-        if (this.fitness != -1)
-            return this.fitness;
-        ++this.ec.evals;
-        
-
-        
-        double[] dif = new double[knapsacks];
-        dif[0] = values[0] - costs[0];
-        for (int i=0; i < genes.length; ++i){
-            dif[genes[i]] += values[i+1];
-            dif[genes[i]] -= costs[i+1];
-        }
-        
-        double min = Double.MAX_VALUE;
-        
-        for (int j=0; j < dif.length; ++j)
-            if (dif[j] < min)
-                min = dif[j];
-
-        
-        for (int j=0; j < dif.length; ++j)
-            dif[j] -= min;
-        
-        this.fitness = 0;
-        for (int j=0; j < dif.length; ++j)
-            this.fitness += dif[j];
-        
-        this.fitness = Math.abs(this.fitness);
-        return this.fitness;
-    } */
     
     /**
      * This method is implemented in order to sort our candidates.
      * @param candidate
      * @return
      */
+    
     public int compareTo(Object candidate) {
         return ((Double) this.eval()).compareTo((Double) ((CandidateBits) candidate).eval());
     }
@@ -231,6 +199,7 @@ public class CandidateBits implements Comparable{
      * @return representation
      */
     @Override
+    
     public String toString(){
         String ret = "";
         for (int i=0; i < this.genes.length; ++i)

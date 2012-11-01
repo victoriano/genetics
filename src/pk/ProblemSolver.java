@@ -4,12 +4,13 @@ package pk;
 public abstract class ProblemSolver {
     long[] values;
     long[] costs;
+    long[] constraints;
     long knapsacks;
     EvalCounter evalCounter;
     long start;
     long end;
-    
-       
+
+          
     /**
      * Returns the execution time of the algorithm
      * @return time
@@ -24,9 +25,10 @@ public abstract class ProblemSolver {
      * @param knapsacks 
      */
     
-    ProblemSolver(long[] values, long[]costs, long knapsacks){
+    ProblemSolver(long[]values, long[]costs, long[]constraints, long knapsacks){
         this.values = values;
         this.costs = costs;
+        this.constraints = constraints;
         this.knapsacks = knapsacks+1;
         this.evalCounter = new EvalCounter();
         double sum = 0;

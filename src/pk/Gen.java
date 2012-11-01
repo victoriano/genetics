@@ -22,8 +22,8 @@ public class Gen extends ProblemSolver{
    * @param tournamentSize
    * @param evaluations 
    */
-    Gen(long[] values, long[] costs, int knapsacks, int populationSize, int tournamentSize, int evaluations){
-        super(values, costs, knapsacks);
+    Gen(long[] values, long[] costs, long[] constraints, int knapsacks, int populationSize, int tournamentSize, int evaluations){
+        super(values, costs, constraints, knapsacks);
         random = new Random();
         this.populationSize = populationSize;
         this.tournamentSize = tournamentSize;
@@ -136,19 +136,18 @@ public class Gen extends ProblemSolver{
       
       //Create initial population 
       for (int i=0; i < populationSize; ++i)
-          population.add(new CandidateBits(values, costs, .1, (int)knapsacks, evalCounter));
+          population.add(new CandidateBits(values, costs, constraints, .1, (int)knapsacks, evalCounter));
       
-      System.out.println("Initial Population Created");
-      int kk = 0;
+      int nGenerations = 0;
       // Criteria to Stop either reach the total n¼ of evals passed or reach and optimum
       //while(evalCounter.evals < evaluations && (Collections.min(population).eval() > 0.0000000000001)){
       while(evalCounter.evals < evaluations ){
-    	    printPopulation();
-    	  	System.out.println("Entrando en el loop " + kk );
+    	    //printPopulation();
+    	  	//System.out.println("Generations " + nGenerations );
             nextGen(population, tournamentSize);
             Collections.sort(population);
     	  	
-    	  	++kk;
+    	  	++nGenerations;
       }
       
       this.end = System.currentTimeMillis();
@@ -156,13 +155,11 @@ public class Gen extends ProblemSolver{
     }
     
     
-    @SuppressWarnings("unchecked")
-	public void printPopulation(){
-    	System.out.println("Generation n:" + evalCounter.evals + "sum: " + Collections.min(population).sum + " best fitness: " + Collections.min(population).eval());
-    	System.out.println("Solution: " + Collections.min(population).toString());
+    public void printPopulation(){
+    	//System.out.println("Generation n:" + evalCounter.evals + " sum: " + Collections.min(population).sum + " best fitness: " + Collections.min(population).eval());
+    	//System.out.println("Solution: " + Collections.min(population).toString());
     	for (int i=0; i < population.size(); ++i){
             System.out.println(population.get(i).toString());
         }
-        System.out.println();
     }
 }
