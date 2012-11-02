@@ -14,7 +14,9 @@ public class CandidateBits implements Comparable{
     private double mutationRate;
     private double fitness;
     private int knapsacks;
-    double sum;
+    double tprofit;
+    double tbenefict;
+    double tcost;
     private EvalCounter ec;
      
     /**
@@ -45,7 +47,9 @@ public class CandidateBits implements Comparable{
             genes[i] =random.nextInt(knapsacks);
         }
         this.fitness = -1;
-        this.sum = 0;
+        this.tbenefict = 0;
+        this.tcost = 0;
+        this.tprofit = 0;
         
         /* System.out.println("New individual! ");
         for (int k=0; k < genes.length; ++k){
@@ -142,41 +146,54 @@ public class CandidateBits implements Comparable{
     
     public double eval(){
     	
+    	/* if we have already evaluated this individual we skip it */
         if (this.fitness != -1){
         	return this.fitness;     	
         }
             
         ++this.ec.evals;
         
-        /* We compute the accumulated diff of
+        /* We compute the accumulated benefit of
          * values - costs of the
          * different knapsacks 
-         * dif[0] = not present in any bag 
+         * benefit[0] = not present in any bag 
          */
         
-        double[] dif = new double[knapsacks];
+        double[] accbenefits = new double[knapsacks];
         for (int i=0; i < genes.length; ++i){
         //System.out.println("Gen " + this.toString() + " cat: " + genes[i] + " value: " + values[i] + " - cost: " + costs[i]  );
-            dif[genes[i]] += values[i];
-            dif[genes[i]] -= costs[i];
+            accbenefits[genes[i]] += values[i];
+            //dif[genes[i]] -= costs[i];
+        }
+        
+        double[] acccosts = new double[knapsacks];
+        for (int i=0; i < genes.length; ++i){
+        //System.out.println("Gen " + this.toString() + " cat: " + genes[i] + " value: " + values[i] + " - cost: " + costs[i]  );
+        	acccosts[genes[i]] += costs[i];
+            //dif[genes[i]] -= costs[i];
         }
         
         /* We sum the items in each bag 
          * dif[0] are the class for items not loaded to any bag
          * */
-        sum = 0;
+        tbenefict = 0;
         
         this.fitness = 0;
-        for (int j=1; j < dif.length; ++j){
-        	 // simple strategy for broken constraints
-        	 if(dif[j]> constraints[j-1]){
-        		 //System.out.println();
+        for (int j=1; j < accbenefits.length; ++j){
+        	
+        	/* simple strategy for broken constraints */
+        	 if(acccosts[j]> constraints[j-1]){
         		 return this.fitness = 10000;
         	 }else{
-        	 sum += dif[j];}
+        	 tbenefict += accbenefits[j];
+        	 tcost += acccosts[j];
+        	 }
         }
             
-        this.fitness = sum;
+        double tprofit = tbenefict - tcost;
+        this.fitness = tprofit;
+        //this.fitness = tbenefict;
+        
         this.fitness = 1/this.fitness;
 
         this.fitness = Math.abs(this.fitness);

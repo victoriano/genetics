@@ -31,8 +31,7 @@ public class Gen extends ProblemSolver{
     }
 
     /**
-     * This method is responsible of creating a new population from the given one.
-     * the 
+     * This method is responsible of creating a new population from the given one 
      * @param population
      * @param tournamentSize 
      */

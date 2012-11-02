@@ -35,18 +35,22 @@ public class General {
 	public static void Test() throws FileNotFoundException, IOException {
 
 		/*
-		 * Data Source:
+		 * Data Testing Sources:
+		 * ORM Library
+		 * http://people.brunel.ac.uk/~mastjjb/jeb/orlib/files/
+		 * and FSU - Department of Scientific Computing 
 		 * http://people.sc.fsu.edu/~jburkardt/datasets/knapsack_01/
 		 * knapsack_01.html
 		 */
+		
 		int evaluations = 5000;
 		double mutationRate = 0.1;
-		int populationSize = 10;
+		int populationSize = 200;
 		int tournamentSize = 4;
 
-		long[] values = readFile("datasets/p1/p01_p.txt");
-		long[] costs = readFile("datasets/p1/p01_w.txt");
-		long[] constraints = readFile("datasets/p1/p01_c.txt");
+		long[] values = readFile("datasets/p2/p02_p.txt");
+		long[] costs = readFile("datasets/p2/p02_w.txt");
+		long[] constraints = readFile("datasets/p2/p02_c.txt");
 
 		int knapsacks = constraints.length;
 		int n = values.length;
@@ -86,14 +90,14 @@ public class General {
 
 		/* Print Results */
 		System.out.print("Execution Time-> " + gen.executionTime()
-				+ " Fitness-> " + cb.eval() + " Sum-> " + cb.sum
-				+ " + | Evals-> " + gen.evaluations() + " ");
+				+ " Fitness-> " + cb.eval() + " TBenefict-> " + cb.tbenefict
+				+ " TCost-> " + cb.tcost +" + | Evals-> " + gen.evaluations() + " ");
 		
 		System.out.println("** Solution: " + cb.toString());
 		System.out.println();
-		System.out.println("Latest popultion: ");
+		//System.out.println("Latest popultion: ");
 		System.out.println();
-		gen.printPopulation();
+		//gen.printPopulation();
 
 	}
 
@@ -166,14 +170,14 @@ public class General {
 
 			/* Print Results */
 			System.out.print("Execution Time-> " + gen.executionTime()
-					+ " Fitness-> " + cb.eval() + " Sum-> " + cb.sum
+					+ " Fitness-> " + cb.eval() + " Sum-> " + cb.tbenefict
 					+ " + | Evals-> " + gen.evaluations() + " ");
 			
 			System.out.println("** Solution: " + cb.toString());
 			System.out.println();
 			System.out.println("Latest popultion: ");
 			System.out.println();
-			gen.printPopulation();
+			//gen.printPopulation();
 
 		}
 	}
