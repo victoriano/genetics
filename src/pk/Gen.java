@@ -126,6 +126,7 @@ public class Gen extends ProblemSolver{
      * This method solves the problem by returning the best candidate it can find by means of a genetic algorithm
      * @return solution
      */
+    
     @SuppressWarnings("unchecked")
 	@Override
     public CandidateBits solve() {
@@ -133,15 +134,17 @@ public class Gen extends ProblemSolver{
       this.start = System.currentTimeMillis();
       population = new ArrayList<CandidateBits>();
       
-      //Create initial population 
+      //Create initial population
+      
       for (int i=0; i < populationSize; ++i)
           population.add(new CandidateBits(values, costs, constraints,  mutationRate, (int)knapsacks, evalCounter));
       
       int nGenerations = 0;
-      // Criteria to Stop either reach the total n¼ of evals passed or reach and optimum
-      //while(evalCounter.evals < evaluations && (Collections.min(population).eval() > 0.0000000000001)){
+      
+      // Criteria to Stop either reach the total n¼ of evals passed
+    
       while(evalCounter.evals < evaluations ){
-    	    //printPopulation();
+    	  
     	  	//System.out.println("Generations " + nGenerations );
             nextGen(population, tournamentSize);
             Collections.sort(population);
@@ -155,8 +158,6 @@ public class Gen extends ProblemSolver{
     
     
     public void printPopulation(){
-    	//System.out.println("Generation n:" + evalCounter.evals + " sum: " + Collections.min(population).sum + " best fitness: " + Collections.min(population).eval());
-    	//System.out.println("Solution: " + Collections.min(population).toString());
     	for (int i=0; i < population.size(); ++i){
             System.out.println(population.get(i).toString());
         }
