@@ -15,7 +15,7 @@ public class CandidateBits implements Comparable{
     private double fitness;
     private int knapsacks;
     double tprofit;
-    double tbenefict;
+    double tbenefit;
     double tcost;
     private EvalCounter ec;
      
@@ -47,7 +47,7 @@ public class CandidateBits implements Comparable{
             genes[i] =random.nextInt(knapsacks);
         }
         this.fitness = -1;
-        this.tbenefict = 0;
+        this.tbenefit = 0;
         this.tcost = 0;
         this.tprofit = 0;
         
@@ -161,38 +161,39 @@ public class CandidateBits implements Comparable{
         
         double[] accbenefits = new double[knapsacks];
         for (int i=0; i < genes.length; ++i){
-        //System.out.println("Gen " + this.toString() + " cat: " + genes[i] + " value: " + values[i] + " - cost: " + costs[i]  );
             accbenefits[genes[i]] += values[i];
-            //dif[genes[i]] -= costs[i];
         }
         
         double[] acccosts = new double[knapsacks];
         for (int i=0; i < genes.length; ++i){
-        //System.out.println("Gen " + this.toString() + " cat: " + genes[i] + " value: " + values[i] + " - cost: " + costs[i]  );
         	acccosts[genes[i]] += costs[i];
-            //dif[genes[i]] -= costs[i];
         }
         
-        /* We sum the items in each bag 
-         * dif[0] are the class for items not loaded to any bag
+        /* We sum the mapping items 
+         * for benefits and costs that are present 
+         * in the knapsacks
          * */
-        tbenefict = 0;
         
         this.fitness = 0;
         for (int j=1; j < accbenefits.length; ++j){
         	
-        	/* simple strategy for broken constraints */
+        	/* simple strategy for broken constraints 
+        	 * instead of reconstructing "wrong" solutions 
+        	 */
         	 if(acccosts[j]> constraints[j-1]){
         		 return this.fitness = 10000;
         	 }else{
-        	 tbenefict += accbenefits[j];
+        	 tbenefit += accbenefits[j];
         	 tcost += acccosts[j];
         	 }
         }
             
-        double tprofit = tbenefict - tcost;
+        double tprofit = tbenefit - tcost;
+        
+        /* Maximize profit or benefit up to you */
+        
         this.fitness = tprofit;
-        //this.fitness = tbenefict;
+        //this.fitness = tbenefit;
         
         this.fitness = 1/this.fitness;
 

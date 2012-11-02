@@ -90,7 +90,7 @@ public class General {
 
 		/* Print Results */
 		System.out.print("Execution Time-> " + gen.executionTime()
-				+ " Fitness-> " + cb.eval() + " TBenefict-> " + cb.tbenefict
+				+ " Fitness-> " + cb.eval() + " TBenefit-> " + cb.tbenefit
 				+ " TCost-> " + cb.tcost +" + | Evals-> " + gen.evaluations() + " ");
 		
 		System.out.println("** Solution: " + cb.toString());
@@ -170,7 +170,7 @@ public class General {
 
 			/* Print Results */
 			System.out.print("Execution Time-> " + gen.executionTime()
-					+ " Fitness-> " + cb.eval() + " Sum-> " + cb.tbenefict
+					+ " Fitness-> " + cb.eval() + " Sum-> " + cb.tbenefit
 					+ " + | Evals-> " + gen.evaluations() + " ");
 			
 			System.out.println("** Solution: " + cb.toString());
